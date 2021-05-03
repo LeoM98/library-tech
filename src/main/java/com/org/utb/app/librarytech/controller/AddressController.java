@@ -30,7 +30,7 @@ public class AddressController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public AddressDTO save(@Valid @RequestBody Address address){
+    public AddressDTO save(@RequestBody Address address){
         return addressService.save(address);
     }
 

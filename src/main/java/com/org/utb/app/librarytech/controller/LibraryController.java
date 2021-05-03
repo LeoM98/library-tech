@@ -37,6 +37,4 @@ public class LibraryController {
         return libraryService.findById(id);
     }
 
-
-
 }

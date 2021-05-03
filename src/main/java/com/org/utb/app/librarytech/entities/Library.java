@@ -10,8 +10,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Getter
@@ -36,10 +34,10 @@ public class Library implements Serializable {
     @Digits(message = "must be a number", integer = 0, fraction = 0)
     private int time;
 
-    //Address ID
+    /* //Address ID
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
-    private Address address;
+    private Address address;*/
 
 
 }

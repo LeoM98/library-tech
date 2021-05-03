@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Getter
@@ -26,8 +26,8 @@ public class Address implements Serializable {
     @NotBlank(message = "Name is mandatory")
     private String name;
 
-    //Library
+    /*//Library
     @OneToOne(mappedBy = "address")
-    private Library library;
+    private Library library;*/
 
 }

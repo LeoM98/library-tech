@@ -37,9 +37,6 @@ public class LibraryServiceImpl implements LibraryService {
         LibraryDTO libraryDTO = new LibraryDTO();
         BeanUtils.copyProperties(library, libraryDTO);
 
-        if(library.getAddress() == null)
-            return null;
-
         libraryRepository.save(library);
         return libraryDTO;
     }
