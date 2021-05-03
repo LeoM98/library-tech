@@ -2,6 +2,8 @@ package com.org.utb.app.librarytech.services.Impl;
 
 import com.org.utb.app.librarytech.dto.AddressDTO;
 import com.org.utb.app.librarytech.entities.Address;
+import com.org.utb.app.librarytech.exceptions.NoAddressDataException;
+import com.org.utb.app.librarytech.exceptions.NoAddressDataFoundExceptionID;
 import com.org.utb.app.librarytech.repositories.AddressRepository;
 import com.org.utb.app.librarytech.services.AddressService;
 import org.springframework.beans.BeanUtils;
@@ -24,11 +26,17 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public List<AddressDTO> findAll() {
 
-        return ((List<Address>) addressRepository
+        List<AddressDTO> array;
+        array = ((List<Address>) addressRepository
                 .findAll())
                 .stream()
                 .map(this::convertToAddresDTO)
                 .collect(Collectors.toList());
+
+        if(array.isEmpty()){
+            throw new NoAddressDataException();
+        }
+        return array;
 
     }
 
@@ -46,7 +54,11 @@ public class AddressServiceImpl implements AddressService {
     public AddressDTO findById(Long id) {
 
         AddressDTO addressDTOS = new AddressDTO();
-        BeanUtils.copyProperties(addressRepository.findById(id).orElse(null), addressDTOS);
+        Address address = addressRepository.findById(id).orElse(null);
+        if (address == null){
+            throw new NoAddressDataFoundExceptionID(id);
+        }
+        BeanUtils.copyProperties(address, addressDTOS);
         return addressDTOS;
     }
 

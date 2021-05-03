@@ -23,7 +23,4 @@ public class LibraryDTO implements Serializable {
     // Antiguo
     private int time;
 
-    // Address
-    private Address address;
-
 }

@@ -20,7 +20,5 @@ public class AddressDTO implements Serializable {
     //Nombre
     private String name;
 
-    // Library
-    private Library library;
 
 }
