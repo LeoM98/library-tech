@@ -1,6 +1,5 @@
 package com.org.utb.app.librarytech.dto;
 
-import com.org.utb.app.librarytech.entities.Address;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

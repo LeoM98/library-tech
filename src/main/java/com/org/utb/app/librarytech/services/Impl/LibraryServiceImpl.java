@@ -2,6 +2,8 @@ package com.org.utb.app.librarytech.services.Impl;
 
 import com.org.utb.app.librarytech.dto.LibraryDTO;
 import com.org.utb.app.librarytech.entities.Library;
+import com.org.utb.app.librarytech.exceptions.NoLibraryFound;
+import com.org.utb.app.librarytech.exceptions.NoLibraryFoundId;
 import com.org.utb.app.librarytech.repositories.LibraryRepository;
 import com.org.utb.app.librarytech.services.LibraryService;
 import org.springframework.beans.BeanUtils;
@@ -24,11 +26,16 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     public List<LibraryDTO> findAll() {
 
-        return ((List<Library>) libraryRepository
-                .findAll())
+        List<LibraryDTO> libraryDTOS = libraryRepository
+                .findAll()
                 .stream()
                 .map(this::convertToLibraryDTO)
                 .collect(Collectors.toList());
+
+        if (libraryDTOS.isEmpty())
+            throw new NoLibraryFound();
+
+        return libraryDTOS;
     }
 
     @Override
@@ -45,11 +52,12 @@ public class LibraryServiceImpl implements LibraryService {
     public LibraryDTO findById(Long id) {
 
         LibraryDTO libraryDTO = new LibraryDTO();
-        BeanUtils.copyProperties(libraryRepository.findById(id).orElse(null), libraryDTO);
-        if (libraryDTO == null){
-            return null;
+        Library library = libraryRepository.findById(id).orElse(null);
+        if (library == null){
+            throw new NoLibraryFoundId(id);
         }
 
+        BeanUtils.copyProperties(library, libraryDTO);
         return libraryDTO;
     }
 

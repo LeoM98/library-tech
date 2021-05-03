@@ -2,18 +2,18 @@ package com.org.utb.app.librarytech.entities;
 
 
 import com.org.utb.app.librarytech.validators.annotations.TimeConstraint;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -29,9 +29,8 @@ public class Library implements Serializable {
     private String name;
 
     // Antiguo
-    @NotBlank(message = "Time is mandatory")
+    @NotNull(message = "Time is mandatory")
     @TimeConstraint
-    @Digits(message = "must be a number", integer = 0, fraction = 0)
     private int time;
 
     /* //Address ID
