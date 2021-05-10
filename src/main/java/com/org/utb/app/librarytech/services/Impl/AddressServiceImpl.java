@@ -27,8 +27,8 @@ public class AddressServiceImpl implements AddressService {
     public List<AddressDTO> findAll() {
 
         List<AddressDTO> array;
-        array = ((List<Address>) addressRepository
-                .findAll())
+        array = addressRepository
+                .findAll()
                 .stream()
                 .map(this::convertToAddresDTO)
                 .collect(Collectors.toList());

@@ -6,19 +6,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.org.utb.app.librarytech.entities.Address;
 import com.org.utb.app.librarytech.repositories.AddressRepository;
-import com.org.utb.app.librarytech.services.Impl.AddressServiceImpl;
-import org.jboss.jandex.Main;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -38,14 +34,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = Main.class)
 @SpringBootTest
 public class AddressServiceTest {
 
     @Autowired
     private WebApplicationContext wac;
     @Mock
-    AddressRepository repository;
+    private AddressRepository repository;
     private MockMvc mvc;
 
     // It's so important to execute the test method
@@ -69,7 +64,7 @@ public class AddressServiceTest {
         Address address = Address.builder().name("Gaviotas").build();
         Address address1 = Address.builder().name("Gaviotas").build();
         Address address2 = Address.builder().name("Gaviotas").build();
-        List<Address> addressList = Lists.newArrayList(address,address1,address2);
+        List<Address> addressList = Lists.newArrayList(address1,address2,address);
         when(repository.findAll()).thenReturn(addressList);
 
         MvcResult mvcResult = mvc.perform( MockMvcRequestBuilders
@@ -85,7 +80,7 @@ public class AddressServiceTest {
     @Test
     public void getAddressById_Status200() throws Exception {
         Address address = Address.builder().name("Gaviotas").build();
-        when(repository.findById(1l)).thenReturn(Optional.of(address));
+        when(repository.findById(50L)).thenReturn(Optional.of(address));
         MvcResult mvcResult = mvc.perform( MockMvcRequestBuilders
                 .get("/address")
                 .accept(MediaType.APPLICATION_JSON))
@@ -98,8 +93,7 @@ public class AddressServiceTest {
 
     @Test
     public void getAddressById_Status404() throws Exception {
-        Address address = Address.builder().name("Gaviotas").build();
-        when(repository.findById(2L)).thenReturn(Optional.of(address));
+        when(repository.findById(1L)).thenReturn(Optional.ofNullable(null));
         MvcResult mvcResult = mvc.perform( MockMvcRequestBuilders
                 .get("/address")
                 .accept(MediaType.APPLICATION_JSON))
@@ -128,7 +122,7 @@ public class AddressServiceTest {
     public void givenFillAddress_getStatus201() throws Exception {
         Address address = Address.builder().name("Gaviotas").build();
         String inputJson = mapToJson(address);
-        MvcResult mvcResult = mvc.perform(post("http://localhost:8080/address/")
+        MvcResult mvcResult = mvc.perform(post("/address")
                 .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).
                 andReturn();
         int status = mvcResult.getResponse().getStatus();

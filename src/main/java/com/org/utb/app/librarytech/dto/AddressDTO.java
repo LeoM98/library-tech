@@ -1,17 +1,12 @@
 package com.org.utb.app.librarytech.dto;
 
-import com.org.utb.app.librarytech.entities.Library;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class AddressDTO implements Serializable {
 
     //Identificación
@@ -20,5 +15,11 @@ public class AddressDTO implements Serializable {
     //Nombre
     private String name;
 
+    public AddressDTO(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
+    public AddressDTO() {
+    }
 }
