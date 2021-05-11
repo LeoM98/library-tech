@@ -1,5 +1,9 @@
-package com.org.utb.app.librarytech.exceptions;
+package com.org.utb.app.librarytech.exceptions.advisor;
 
+import com.org.utb.app.librarytech.exceptions.NoAddressDataException;
+import com.org.utb.app.librarytech.exceptions.NoAddressDataFoundExceptionID;
+import com.org.utb.app.librarytech.exceptions.NoLibraryFound;
+import com.org.utb.app.librarytech.exceptions.NoLibraryFoundId;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
