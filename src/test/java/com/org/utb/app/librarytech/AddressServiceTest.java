@@ -93,7 +93,8 @@ public class AddressServiceTest {
 
     @Test
     public void getAddressById_Status404() throws Exception {
-        when(repository.findById(1L)).thenReturn(Optional.ofNullable(null));
+        Address address = Address.builder().name("Gaviotas").build();
+        when(repository.findById(2L)).thenReturn(Optional.of(address));
         MvcResult mvcResult = mvc.perform( MockMvcRequestBuilders
                 .get("/address")
                 .accept(MediaType.APPLICATION_JSON))
