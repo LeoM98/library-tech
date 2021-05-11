@@ -130,4 +130,15 @@ public class AddressServiceTest {
         assertEquals(201, status);
     }
 
+    @Test
+    public void givenUnFillAddress_getStatus400() throws Exception {
+        Address address = Address.builder().name("").build();
+        String inputJson = mapToJson(address);
+        MvcResult mvcResult = mvc.perform(post("/address")
+                .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).
+                andReturn();
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(400, status);
+    }
+
 }
