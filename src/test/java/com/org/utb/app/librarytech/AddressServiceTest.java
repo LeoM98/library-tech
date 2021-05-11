@@ -23,7 +23,6 @@ import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,7 +79,7 @@ public class AddressServiceTest {
     @Test
     public void getAddressById_Status200() throws Exception {
         Address address = Address.builder().name("Gaviotas").build();
-        when(repository.findById(50L)).thenReturn(Optional.of(address));
+        when(repository.findById(1L)).thenReturn(Optional.of(address));
         MvcResult mvcResult = mvc.perform( MockMvcRequestBuilders
                 .get("/address")
                 .accept(MediaType.APPLICATION_JSON))
@@ -91,33 +90,6 @@ public class AddressServiceTest {
         assertEquals(HttpStatus.OK.value(), status);
     }
 
-    @Test
-    public void getAddressById_Status404() throws Exception {
-        Address address = Address.builder().name("Gaviotas").build();
-        when(repository.findById(2L)).thenReturn(Optional.of(address));
-        MvcResult mvcResult = mvc.perform( MockMvcRequestBuilders
-                .get("/address")
-                .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isNotFound())
-                .andReturn();
-        int status = mvcResult.getResponse().getStatus();
-        assertEquals(HttpStatus.NOT_FOUND.value(), status);
-    }
-
-    @Test
-    public void getAllAddress_Status404() throws Exception {
-        List<Address> addressList = new ArrayList<>();
-        when(repository.findAll()).thenReturn(addressList);
-        MvcResult mvcResult = mvc.perform( MockMvcRequestBuilders
-                .get("/address")
-                .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isNotFound())
-                .andReturn();
-        int status = mvcResult.getResponse().getStatus();
-        assertEquals(HttpStatus.NOT_FOUND.value(), status);
-    }
 
     @Test
     public void givenFillAddress_getStatus201() throws Exception {
@@ -140,5 +112,18 @@ public class AddressServiceTest {
         int status = mvcResult.getResponse().getStatus();
         assertEquals(400, status);
     }
+
+    @Test
+    public void givenBadEndpoint() throws Exception {
+        Address address = Address.builder().name("").build();
+        String inputJson = mapToJson(address);
+        MvcResult mvcResult = mvc.perform(post("/addresses")
+                .contentType(MediaType.APPLICATION_JSON_VALUE).content(inputJson)).
+                andReturn();
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(404, status);
+    }
+
+
 
 }
